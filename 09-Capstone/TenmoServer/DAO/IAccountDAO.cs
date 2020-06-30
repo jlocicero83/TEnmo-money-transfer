@@ -2,6 +2,6 @@
 {
     public interface IAccountDAO
     {
-        decimal GetAccountBalance(int userID);
+        decimal GetAccountBalance(string username);
     }
 }

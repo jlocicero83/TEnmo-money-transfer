@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using TenmoServer.DAO;
+using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
@@ -16,12 +17,13 @@ namespace TenmoServer.Controllers
             this.accountDAO = accountDAO;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public ActionResult<decimal> GetBalance()
         {
+            
             decimal result;
-            result = accountDAO.GetAccountBalance(Convert.ToInt32(User.Identity));
-            return result;
+            result = accountDAO.GetAccountBalance(User.Identity.Name);
+            return Ok(result);
         }
 
     }

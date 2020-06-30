@@ -16,7 +16,7 @@ namespace TenmoServer.DAO
         }
 
 
-        public decimal GetAccountBalance(int userID)
+        public decimal GetAccountBalance(string username)
         {
             decimal balance = 0;
 
@@ -26,8 +26,10 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT balance from accounts where user_id = @userID", conn);
-                    cmd.Parameters.AddWithValue("@userID", userID);
+                    SqlCommand cmd = new SqlCommand("Select balance from accounts a " +
+                        "join users u on a.user_id = u.user_id " +
+                        "where username = @username", conn);
+                    cmd.Parameters.AddWithValue("@username", username);
                     balance = Convert.ToDecimal(cmd.ExecuteScalar());
 
 

@@ -19,4 +19,13 @@
         public string Username { get; set; }
         public string Password { get; set; }
     }
+
+    public class UserAccount
+    {
+        public int AccountID { get; set; }
+        public int UserID { get; set; }
+        public decimal Balance { get; set; }
+
+
+    }
 }
