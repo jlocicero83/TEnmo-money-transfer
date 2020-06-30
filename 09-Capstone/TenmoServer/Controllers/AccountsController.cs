@@ -13,19 +13,8 @@ namespace TenmoServer.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly ITokenGenerator tokenGenerator;
-        private readonly IPasswordHasher passwordHasher;
-        private readonly IUserDAO userDAO;
-        private readonly IAccountDAO accountDAO;
 
-        public AccountsController(ITokenGenerator tokenGenerator, IPasswordHasher passwordHasher, IUserDAO userDAO, IAccountDAO accountDAO)
-        {
-            this.tokenGenerator = tokenGenerator;
-            this.passwordHasher = passwordHasher;
-            this.userDAO = userDAO;
-            this.accountDAO = accountDAO;
-        }
 
-        [HttpGet]
+        
     }
 }
