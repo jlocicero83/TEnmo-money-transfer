@@ -35,7 +35,7 @@ namespace TenmoServer.Controllers
             return Ok(result);
         }
 
-        [HttpPut("transactions")]
+        [HttpPost("transactions")]
         public ActionResult UpdateBalances(int recipientID, int senderID, decimal transferAmount)
         {
              return Ok(accountDAO.TransferMoney(recipientID, senderID, transferAmount));

@@ -44,7 +44,8 @@ namespace TenmoServer.DAO
             return balance;
         }
         public bool TransferMoney(int recipientID, int senderID, decimal transferAmount)  //default transfer type / transfer status? 
-        {
+        {                                                                                   //should we be splitting logging functionality and adjusting balances?
+                                                                                           //testing in postman... should we be be working with a transfer object?
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
