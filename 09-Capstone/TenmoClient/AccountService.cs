@@ -18,7 +18,7 @@ namespace TenmoClient
             client.Authenticator = new JwtAuthenticator(UserService.GetToken());
         }
 
-        public decimal GetAccount()
+        public decimal GetAccountBalance()
         {
             RestRequest request = new RestRequest(API_Base_URL + $"accounts");
             IRestResponse<decimal> response = client.Get<decimal>(request);
