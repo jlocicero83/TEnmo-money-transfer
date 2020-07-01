@@ -45,7 +45,31 @@ namespace TenmoServer.DAO
         }
         public bool TransferMoney(int recipientID, int senderID, decimal transferAmount)
         {
-            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE accounts " +     //Update sender balance
+                        "SET balance = (balance - @transferAmount)" +
+                        "WHERE user_id = @senderID" +
+                        "UPDATE accounts" +                                  //Update recipient balance
+                        "SET balance = (balance + @transferAmount" +      
+                        "WHERE user_id = @recipientID" +
+                        "INSERT into transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount)" +   //Log transfer in transfer table
+                        "VALUES(2, 2, @senderID, @recipientID, @transferAmount))", conn);
+                    cmd.Parameters.AddWithValue("@transferAmount", transferAmount);
+                    cmd.Parameters.AddWithValue("@senderID", senderID);
+                    cmd.Parameters.AddWithValue("@recipientID", recipientID);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

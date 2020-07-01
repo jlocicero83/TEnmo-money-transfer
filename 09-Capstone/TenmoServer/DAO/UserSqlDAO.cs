@@ -136,5 +136,16 @@ namespace TenmoServer.DAO
             }
             return usersInfo;
         }
+
+        public bool ConfirmRecipient(int recipientID)
+        {
+            Dictionary<int, string> users = ListAllUsers();
+
+            if(users.ContainsKey(recipientID))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
