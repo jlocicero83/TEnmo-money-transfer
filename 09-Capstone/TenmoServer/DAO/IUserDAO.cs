@@ -9,6 +9,8 @@ namespace TenmoServer.DAO
         User AddUser(string username, string password);
         List<User> GetUsers();
         Dictionary<int, string> ListAllUsers();
-        
+        bool ConfirmRecipient(int recipientID);
+
+
     }
 }

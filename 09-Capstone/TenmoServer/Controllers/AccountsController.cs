@@ -34,5 +34,6 @@ namespace TenmoServer.Controllers
             Dictionary<int, string> result = userDAO.ListAllUsers();
             return Ok(result);
         }
+        [HttpPut]
     }
 }
