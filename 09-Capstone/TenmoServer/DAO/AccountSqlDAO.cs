@@ -43,7 +43,7 @@ namespace TenmoServer.DAO
 
             return balance;
         }
-        public bool TransferMoney(int recipientID, int senderID, decimal transferAmount)
+        public bool TransferMoney(int recipientID, int senderID, decimal transferAmount)  //default transfer type / transfer status? 
         {
             try
             {

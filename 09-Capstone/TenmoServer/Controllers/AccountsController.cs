@@ -34,6 +34,11 @@ namespace TenmoServer.Controllers
             Dictionary<int, string> result = userDAO.ListAllUsers();
             return Ok(result);
         }
-        [HttpPut]
+
+        [HttpPut("transactions")]
+        public ActionResult UpdateBalances(int recipientID, int senderID, decimal transferAmount)
+        {
+             return Ok(accountDAO.TransferMoney(recipientID, senderID, transferAmount));
+        }
     }
 }
