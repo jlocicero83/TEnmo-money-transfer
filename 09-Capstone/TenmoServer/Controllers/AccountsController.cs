@@ -7,7 +7,7 @@ using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("/")]
     [Authorize]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -20,7 +20,7 @@ namespace TenmoServer.Controllers
             this.userDAO = userDAO;
         }
 
-        [HttpGet]
+        [HttpGet("accounts/my_acccount_balance")]
         public ActionResult<decimal> GetBalance()
         {
             
@@ -28,7 +28,7 @@ namespace TenmoServer.Controllers
             result = accountDAO.GetAccountBalance(User.Identity.Name);
             return Ok(result);
         }
-        [HttpGet("/users")]
+        [HttpGet("users")]
         public ActionResult<Dictionary<int, string>> ListAllUsers()
         {
             Dictionary<int, string> result = userDAO.ListAllUsers();
