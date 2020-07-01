@@ -116,6 +116,8 @@ namespace TenmoClient
                     //TODO: format (padding) 
                     Console.WriteLine("User ID      Username");
                     accountService.DisplayUsers();
+                    Console.WriteLine("Please enter the ID of the user you'd like to transfer to:");
+
 
                 }
                 else if (menuSelection == 5)

@@ -43,30 +43,9 @@ namespace TenmoServer.DAO
 
             return balance;
         }
-
-        //public List<Account> GetAllAccounts()
-        //{
-        //    List<Account> accountList = new List<Account>();
-
-        //    try
-        //    {
-        //        using (SqlConnection conn = new SqlConnection(connectionString))
-        //        {
-        //            conn.Open();
-
-        //            SqlCommand cmd = new SqlCommand("Select user_id, username FROM users", conn);
-
-        //            balance = Convert.ToDecimal(cmd.ExecuteScalar());
-
-
-        //        }
-        //    }
-        //    catch (SqlException)
-        //    {
-        //        throw;
-        //    }
-
-        //    return balance;
-        //}
+        public bool TransferMoney(int recipientID, int senderID, decimal transferAmount)
+        {
+            
+        }
     }
 }
