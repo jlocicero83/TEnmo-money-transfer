@@ -123,5 +123,18 @@ namespace TenmoServer.DAO
 
             return u;
         }
+        public Dictionary<int, string> ListAllUsers()
+        {
+            List<User> userList = new List<User>();
+            userList = GetUsers();
+
+            Dictionary<int, string> usersInfo = new Dictionary<int, string>();
+
+            foreach(User user in userList)
+            {
+                usersInfo.Add(user.UserId, user.Username);
+            }
+            return usersInfo;
+        }
     }
 }

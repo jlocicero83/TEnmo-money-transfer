@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using TenmoServer.DAO;
 using TenmoServer.Models;
 
@@ -12,9 +13,11 @@ namespace TenmoServer.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountDAO accountDAO;
-        public AccountsController(IAccountDAO accountDAO)
+        private readonly IUserDAO userDAO;
+        public AccountsController(IAccountDAO accountDAO, IUserDAO userDAO)
         {
             this.accountDAO = accountDAO;
+            this.userDAO = userDAO;
         }
 
         [HttpGet]
@@ -25,6 +28,11 @@ namespace TenmoServer.Controllers
             result = accountDAO.GetAccountBalance(User.Identity.Name);
             return Ok(result);
         }
-
+        [HttpGet("/users")]
+        public ActionResult<Dictionary<int, string>> ListAllUsers()
+        {
+            Dictionary<int, string> result = userDAO.ListAllUsers();
+            return Ok(result);
+        }
     }
 }
