@@ -20,9 +20,24 @@ namespace TenmoClient
 
         public decimal GetAccountBalance()
         {
-            RestRequest request = new RestRequest(API_Base_URL + $"accounts");
+            RestRequest request = new RestRequest(API_Base_URL + "accounts/my_acccount_balance");
             IRestResponse<decimal> response = client.Get<decimal>(request);
             return response.Data;
+        }
+
+        public void DisplayUsers()
+        {
+            RestRequest request = new RestRequest(API_Base_URL + "users");
+            IRestResponse<Dictionary<int, string>> response = client.Get<Dictionary<int, string>>(request);
+            Dictionary<int, string> result = new Dictionary<int, string>();
+            result = response.Data;
+
+            foreach (KeyValuePair<int, string> entry in result)
+            {
+                //TODO: format (padding)
+                Console.WriteLine($"{entry.Key}   {entry.Value}");
+            }
+
         }
     }
 }

@@ -113,7 +113,9 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 4)
                 {
-                    // Send TE bucks
+                    //TODO: format (padding) 
+                    Console.WriteLine("User ID      Username");
+                    accountService.DisplayUsers();
 
                 }
                 else if (menuSelection == 5)
