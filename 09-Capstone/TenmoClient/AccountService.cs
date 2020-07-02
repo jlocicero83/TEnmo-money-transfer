@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TenmoClient.Data;
+using TenmoClient.Models;
 
 namespace TenmoClient
 {

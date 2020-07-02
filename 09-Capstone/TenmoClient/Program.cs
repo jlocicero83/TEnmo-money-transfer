@@ -1,5 +1,6 @@
 ﻿using System;
 using TenmoClient.Data;
+using TenmoClient.Models;
 
 namespace TenmoClient
 {
@@ -7,7 +8,7 @@ namespace TenmoClient
     {
         private static readonly ConsoleService consoleService = new ConsoleService();
         private static readonly AuthService authService = new AuthService();
-
+        
 
         static void Main(string[] args)
         {
@@ -116,17 +117,18 @@ namespace TenmoClient
                     Console.WriteLine("User ID      Username");
                     accountService.DisplayUsers();
                     Console.WriteLine("Please enter the ID of the user you'd like to transfer to:");
-                    if (!accountService.ConfirmRecipient(int.Parse(Console.ReadLine()))) //make sure the to_account_id exists
+                    int toUserID = int.Parse(Console.ReadLine()); //hold toUserID variable
+                    if (!accountService.ConfirmRecipient(toUserID)) //make sure the to_account_id exists
                     {
                         Console.WriteLine("Sorry, that USER ID does not exist.");
                     }
                     Console.WriteLine("Please enter the amount you would like to send:");
-                    decimal amount = decimal.Parse(Console.ReadLine());  //make sure the from_account has enough funds
+                    decimal amount = decimal.Parse(Console.ReadLine());  //make sure the from_account has enough funds and hold amount variable
                     if (accountService.GetAccountBalance() < amount)
                     {
                         Console.WriteLine("Sorry, you don't have enough funds.");
                     }
-                    
+                    Transfer newTransfer = new Transfer(UserService.GetUserId(), toUserID, amount);
 
 
                 }
