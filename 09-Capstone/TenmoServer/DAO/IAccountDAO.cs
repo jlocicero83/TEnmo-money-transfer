@@ -1,4 +1,5 @@
-﻿using TenmoServer.Models;
+﻿using System.Collections.Generic;
+using TenmoServer.Models;
 
 namespace TenmoServer.DAO
 {
@@ -8,5 +9,6 @@ namespace TenmoServer.DAO
         Transfer CreateTransfer(Transfer newTransfer);
         Transfer GetTransferByID(int id);
         bool AdjustBalances(Transfer transfer);
+        List<Transfer> GetAllTransfersByUser(int userID);
     }
 }

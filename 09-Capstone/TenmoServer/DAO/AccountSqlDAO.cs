@@ -134,6 +134,34 @@ namespace TenmoServer.DAO
                 throw;
             }
         }
+        public List<Transfer> GetAllTransfersByUser(int userID)
+        {
+            List<Transfer> transferList = new List<Transfer>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("Select * from transfers WHERE account_from = @id OR account_to = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", userID);
+
+                    // we need a reader here 
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        transferList.Add(GetTransferFromReader(reader));
+                    }
+                }
+                return transferList;
+
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+        }
         private Transfer GetTransferFromReader(SqlDataReader reader)
         {
             Transfer trans = new Transfer()
