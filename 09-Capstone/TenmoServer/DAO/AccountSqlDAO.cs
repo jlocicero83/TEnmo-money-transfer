@@ -75,6 +75,7 @@ namespace TenmoServer.DAO
         //}
         public Transfer CreateTransfer(Transfer newTransfer)
         {
+            Transfer createdTransfer = null;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -90,15 +91,20 @@ namespace TenmoServer.DAO
 
                     cmd = new SqlCommand("SELECT @@identity", conn);
                     int transferID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    createdTransfer = GetTransferByID(transferID);
                 }
+
+                return createdTransfer;
             }
             catch (SqlException)
             {
-                return false;
+                throw;
             }
         }
         public Transfer GetTransferByID(int id)
         {
+            Transfer returnTransfer = null;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -109,14 +115,18 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@id", id);
 
                     // we need a reader here 
-                   
-
-                   
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                         returnTransfer = GetTransferFromReader(reader);
+                    }
                 }
+                return returnTransfer;
+
             }
             catch (SqlException)
             {
-                return false;
+                throw;
             }
         }
         private Transfer GetTransferFromReader(SqlDataReader reader)
@@ -131,6 +141,33 @@ namespace TenmoServer.DAO
                 TransferAmount = Convert.ToDecimal(reader["amount"]),
             };
             return trans;
+        }
+
+        public bool AdjustBalances(Transfer transfer)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE accounts " +     //Update sender balance
+                        "SET balance = (balance - @transferAmount)" +
+                        "WHERE user_id = @senderID" +
+                        "UPDATE accounts" +                                  //Update recipient balance
+                        "SET balance = (balance + @transferAmount" +
+                        "WHERE user_id = @recipientID", conn);
+                    cmd.Parameters.AddWithValue("@transferAmount", transfer.TransferAmount);
+                    cmd.Parameters.AddWithValue("@senderID", transfer.FromAccountID);
+                    cmd.Parameters.AddWithValue("@recipientID", transfer.ToAccountID);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return (rowsAffected > 0);
+                }
+            }
+            catch
+            {
+                return false; 
+            }
         }
     }
 }
