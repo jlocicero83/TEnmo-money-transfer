@@ -47,5 +47,6 @@ namespace TenmoClient
             result = response.Data;
             return result.ContainsKey(idFromUser);
         }
+        
     }
 }
