@@ -49,5 +49,21 @@ namespace TenmoClient
             return result.ContainsKey(idFromUser);
         }
         
+        public void CompleteTransfer(Transfer transfer)
+        {
+            RestRequest request = new RestRequest(API_Base_URL + "transactions");
+            request.AddJsonBody(transfer);
+            IRestResponse<Transfer> response = client.Post<Transfer>(request);
+            if(response.ResponseStatus != ResponseStatus.Completed)
+            {
+                throw new Exception("Error Occurred");
+            }
+            else if (!response.IsSuccessful)
+            {
+                throw new Exception("Error occurred - received non-success response: " + (int)response.StatusCode);
+            }
+            Transfer holderTransfer = response.Data;
+            
+        }
     }
 }

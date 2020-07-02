@@ -12,6 +12,10 @@ namespace TenmoClient.Models
             ToAccountID = toID;
             TransferAmount = amount;
         }
+        public Transfer()
+        {
+
+        }
         public int TransferID { get; set; }
         public int TransferTypeID { get; set; } = 2;
         public int TransferStatusID { get; set; } = 2;
