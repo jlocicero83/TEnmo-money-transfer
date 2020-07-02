@@ -107,10 +107,11 @@ namespace TenmoServer.DAO
 
                     SqlCommand cmd = new SqlCommand("Select * from transfers WHERE transfer = @id", conn);
                     cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
 
-                    cmd = new SqlCommand("SELECT @@identity", conn);
-                    int transferID = Convert.ToInt32(cmd.ExecuteScalar());
+                    // we need a reader here 
+                   
+
+                   
                 }
             }
             catch (SqlException)
