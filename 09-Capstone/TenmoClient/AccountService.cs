@@ -32,14 +32,41 @@ namespace TenmoClient
             IRestResponse<Dictionary<int, string>> response = client.Get<Dictionary<int, string>>(request);
             Dictionary<int, string> result = new Dictionary<int, string>();
             result = response.Data;
-
+            int myID = UserService.GetUserId();
             foreach (KeyValuePair<int, string> entry in result)
             {
-                //TODO: format (padding)
-                Console.WriteLine($"{entry.Key}   {entry.Value}");
+                if (entry.Key == myID)
+                {
+                    //TODO: format (padding)
+                    Console.WriteLine($"{entry.Key}            {entry.Value} (*YOU*)");
+                }
+                else
+                {
+                    Console.WriteLine($"{entry.Key}            {entry.Value}");
+                }
+                
             }
 
         }
+        public string GetUsernameByID(int id)
+        {
+            string username = "";
+            RestRequest request = new RestRequest(API_Base_URL + "users");
+            IRestResponse<Dictionary<int, string>> response = client.Get<Dictionary<int, string>>(request);
+            Dictionary<int, string> result = new Dictionary<int, string>();
+            result = response.Data;
+
+
+            foreach(KeyValuePair<int, string> entry in result)
+            {
+                if (entry.Key == id)
+                {
+                    username = entry.Value;
+                }
+            }
+            return username;
+        }
+
         public bool ConfirmRecipient(int idFromUser)
         {
             RestRequest request = new RestRequest(API_Base_URL + "users");
@@ -63,7 +90,16 @@ namespace TenmoClient
                 throw new Exception("Error occurred - received non-success response: " + (int)response.StatusCode);
             }
             Transfer holderTransfer = response.Data;
-            
+            Console.WriteLine("---------------------");
+            Console.WriteLine("Transfer Details");
+            Console.WriteLine("---------------------");
+            Console.WriteLine();
+            Console.WriteLine($"ID: {holderTransfer.TransferID}");
+            Console.WriteLine($"From: {GetUsernameByID(holderTransfer.FromAccountID)}");
+            Console.WriteLine($"To: {GetUsernameByID(holderTransfer.ToAccountID)}");
+            Console.WriteLine($"Type: {holderTransfer.TransferType}");
+            Console.WriteLine($"Status: {holderTransfer.TransferStatus}");
+            Console.WriteLine($"Amount: {holderTransfer.TransferAmount:C}");
         }
     }
 }

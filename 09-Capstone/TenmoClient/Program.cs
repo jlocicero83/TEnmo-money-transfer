@@ -97,7 +97,7 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 1)
                 {
-                    Console.WriteLine($"Your current account balance is {accountService.GetAccountBalance():C}");
+                    Console.WriteLine($"\nYour current account balance is {accountService.GetAccountBalance():C}\n");
 
 
                 }
@@ -120,15 +120,28 @@ namespace TenmoClient
                     int toUserID = int.Parse(Console.ReadLine()); //hold toUserID variable
                     if (!accountService.ConfirmRecipient(toUserID)) //make sure the to_account_id exists
                     {
-                        Console.WriteLine("Sorry, that USER ID does not exist.");
+                        Console.WriteLine("\nSorry, that USER ID does not exist.\n");
+                        //TODO: return user to this menu, not the main menu. 
+                        MenuSelection();
+                        
                     }
-                    Console.WriteLine("Please enter the amount you would like to send:");
+                    else if (toUserID == UserService.GetUserId())
+                    {
+                        Console.WriteLine("\nSorry, you cannot send money to yourself!\n");
+                        
+                        MenuSelection();
+                    }
+                    Console.WriteLine("\nPlease enter the amount you would like to send:");
                     decimal amount = decimal.Parse(Console.ReadLine());  //make sure the from_account has enough funds and hold amount variable
                     if (accountService.GetAccountBalance() < amount)
                     {
-                        Console.WriteLine("Sorry, you don't have enough funds.");
+                        Console.WriteLine("\nSorry, you don't have enough funds.\n");
+                       
+                        MenuSelection();
+                        
                     }
                     Transfer newTransfer = new Transfer(UserService.GetUserId(), toUserID, amount);
+                    accountService.CompleteTransfer(newTransfer);
 
 
                 }

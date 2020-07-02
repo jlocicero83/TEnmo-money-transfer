@@ -139,8 +139,8 @@ namespace TenmoServer.DAO
             Transfer trans = new Transfer()
             {
                 TransferID = Convert.ToInt32(reader["transfer_id"]),
-                TransferStatusID = Convert.ToInt32(reader["transfer_status_id"]),
-                TransferTypeID = Convert.ToInt32(reader["transfer_type_id"]),
+                TransferStatus = (TransferStatus)Convert.ToInt32(reader["transfer_status_id"]),
+                TransferType = (TransferType)Convert.ToInt32(reader["transfer_type_id"]),
                 FromAccountID = Convert.ToInt32(reader["account_from"]),
                 ToAccountID = Convert.ToInt32(reader["account_to"]),
                 TransferAmount = Convert.ToDecimal(reader["amount"]),
