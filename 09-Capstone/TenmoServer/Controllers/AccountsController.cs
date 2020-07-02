@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using TenmoServer.DAO;
 using TenmoServer.Models;
 
@@ -14,6 +16,19 @@ namespace TenmoServer.Controllers
     {
         private readonly IAccountDAO accountDAO;
         private readonly IUserDAO userDAO;
+        protected int userID
+        { 
+            get 
+            {
+                int userID = 0;
+                Claim subjectClaim = User?.Claims?.Where(cl => cl.Type == "sub").FirstOrDefault();
+                if (subjectClaim != null)
+                {
+                    int.TryParse(subjectClaim.Value, out userID);
+                }
+                return userID;
+            } 
+        }
         public AccountsController(IAccountDAO accountDAO, IUserDAO userDAO)
         {
             this.accountDAO = accountDAO;
@@ -43,7 +58,7 @@ namespace TenmoServer.Controllers
             return Created(location, result);
         }
         [HttpGet("transactions")]
-        public ActionResult<List<Transfer>> ListAllTransactions(int userID)
+        public ActionResult<List<Transfer>> ListAllTransactions()
         {
             List<Transfer> result = accountDAO.GetAllTransfersByUser(userID);
             return Ok(result);

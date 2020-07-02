@@ -75,6 +75,24 @@ namespace TenmoClient
             result = response.Data;
             return result.ContainsKey(idFromUser);
         }
+        public void ListAllTransfers(int userID)
+        {
+            RestRequest request = new RestRequest(API_Base_URL + "transactions");
+            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+            List<Transfer> result = new List<Transfer>();
+            result = response.Data;
+            foreach(Transfer transfer in result)
+            {
+                if((int)transfer.TransferType == 2)
+                {
+                    Console.WriteLine($"{transfer.TransferID}       From:{GetUsernameByID(transfer.FromAccountID)}      {transfer.TransferAmount:C}");
+                }
+                else
+                {
+                    Console.WriteLine($"{transfer.TransferID}      To:{GetUsernameByID(transfer.ToAccountID)}       {transfer.TransferAmount:C}");
+                }
+            }
+        }
         
         public void CompleteTransfer(Transfer transfer)
         {
