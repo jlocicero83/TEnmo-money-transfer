@@ -94,14 +94,12 @@ namespace TenmoServer.DAO
 
                     createdTransfer = GetTransferByID(transferID);
 
-                    //experiment 
-                    AdjustBalances(createdTransfer);
-                    return createdTransfer;
-                    //if (AdjustBalances(createdTransfer))
-                    //{
-                    //    return createdTransfer;
-                    //}
-                    //return null;
+
+                    if (AdjustBalances(createdTransfer))
+                    {
+                        return createdTransfer;
+                    }
+                    return null;
                 }
             }
             catch (SqlException)
@@ -150,7 +148,7 @@ namespace TenmoServer.DAO
             return trans;
         }
 
-        public void AdjustBalances(Transfer transfer)
+        public bool AdjustBalances(Transfer transfer)
         {
             try
             {
@@ -167,13 +165,13 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@transferAmount", transfer.TransferAmount);
                     cmd.Parameters.AddWithValue("@senderID", transfer.FromAccountID);
                     cmd.Parameters.AddWithValue("@recipientID", transfer.ToAccountID);
-                    cmd.ExecuteNonQuery();
-                    //int rowsAffected = cmd.ExecuteNonQuery();
-                    //if (rowsAffected > 0)
-                    //{
-                    //    return true;
-                    //}
-                    //return false;
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
             }
             catch (SqlException)
