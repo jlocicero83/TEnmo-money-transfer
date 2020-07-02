@@ -159,10 +159,10 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("UPDATE accounts " +     //Update sender balance
-                        "SET balance = (balance - @transferAmount)" +
-                        "WHERE user_id = @senderID" +
-                        "UPDATE accounts" +                                  //Update recipient balance
-                        "SET balance = (balance + @transferAmount" +
+                        "SET balance = (balance - @transferAmount) " +
+                        "WHERE user_id = @senderID; " +
+                        "UPDATE accounts " +                                  //Update recipient balance
+                        "SET balance = (balance + @transferAmount) " +
                         "WHERE user_id = @recipientID", conn);
                     cmd.Parameters.AddWithValue("@transferAmount", transfer.TransferAmount);
                     cmd.Parameters.AddWithValue("@senderID", transfer.FromAccountID);
