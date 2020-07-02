@@ -36,9 +36,13 @@ namespace TenmoServer.Controllers
         }
 
         [HttpPost("transactions")]
-        public ActionResult UpdateBalances(int recipientID, int senderID, decimal transferAmount)
+        public ActionResult<Transfer> CompleteTransfer(Transfer transfer)
         {
-             return Ok(accountDAO.TransferMoney(recipientID, senderID, transferAmount));
+            Transfer result = accountDAO.CreateTransfer(transfer);
+            string location = $"transactions/{result.TransferID}";
+            return Created(location, result);
         }
+
+      
     }
 }

@@ -83,7 +83,7 @@ namespace TenmoServer.DAO
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand("INSERT into transfers(transfer_type_id, transfer_status_id, account_from, account_to, amount)" +   //Log transfer in transfer table
-                        "VALUES(2, 2, @senderID, @recipientID, @transferAmount))", conn);
+                        "VALUES(2, 2, @senderID, @recipientID, @transferAmount)", conn);
                     cmd.Parameters.AddWithValue("@transferAmount", newTransfer.TransferAmount);
                     cmd.Parameters.AddWithValue("@senderID", newTransfer.FromAccountID);
                     cmd.Parameters.AddWithValue("@recipientID", newTransfer.ToAccountID);
@@ -93,9 +93,16 @@ namespace TenmoServer.DAO
                     int transferID = Convert.ToInt32(cmd.ExecuteScalar());
 
                     createdTransfer = GetTransferByID(transferID);
-                }
 
-                return createdTransfer;
+                    //experiment 
+                    AdjustBalances(createdTransfer);
+                    return createdTransfer;
+                    //if (AdjustBalances(createdTransfer))
+                    //{
+                    //    return createdTransfer;
+                    //}
+                    //return null;
+                }
             }
             catch (SqlException)
             {
@@ -111,7 +118,7 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("Select * from transfers WHERE transfer = @id", conn);
+                    SqlCommand cmd = new SqlCommand("Select * from transfers WHERE transfer_id = @id", conn);
                     cmd.Parameters.AddWithValue("@id", id);
 
                     // we need a reader here 
@@ -143,7 +150,7 @@ namespace TenmoServer.DAO
             return trans;
         }
 
-        public bool AdjustBalances(Transfer transfer)
+        public void AdjustBalances(Transfer transfer)
         {
             try
             {
@@ -160,13 +167,18 @@ namespace TenmoServer.DAO
                     cmd.Parameters.AddWithValue("@transferAmount", transfer.TransferAmount);
                     cmd.Parameters.AddWithValue("@senderID", transfer.FromAccountID);
                     cmd.Parameters.AddWithValue("@recipientID", transfer.ToAccountID);
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    return (rowsAffected > 0);
+                    cmd.ExecuteNonQuery();
+                    //int rowsAffected = cmd.ExecuteNonQuery();
+                    //if (rowsAffected > 0)
+                    //{
+                    //    return true;
+                    //}
+                    //return false;
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return false; 
+                throw; 
             }
         }
     }

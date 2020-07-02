@@ -7,6 +7,6 @@ namespace TenmoServer.DAO
         decimal GetAccountBalance(string username);
         Transfer CreateTransfer(Transfer newTransfer);
         Transfer GetTransferByID(int id);
-        bool AdjustBalances(Transfer transfer);
+        void AdjustBalances(Transfer transfer);
     }
 }
