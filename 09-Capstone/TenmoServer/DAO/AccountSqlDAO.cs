@@ -148,7 +148,7 @@ namespace TenmoServer.DAO
 
                     // we need a reader here 
                     SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.Read())
+                    while(reader.Read())
                     {
                         transferList.Add(GetTransferFromReader(reader));
                     }
