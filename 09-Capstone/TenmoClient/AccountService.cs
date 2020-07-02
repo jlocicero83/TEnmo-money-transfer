@@ -83,7 +83,7 @@ namespace TenmoClient
             result = response.Data;
             foreach(Transfer transfer in result)
             {
-                if((int)transfer.TransferType == 2)
+                if(transfer.ToAccountID == UserService.GetUserId())
                 {
                     Console.WriteLine($"{transfer.TransferID}       From:{GetUsernameByID(transfer.FromAccountID)}      {transfer.TransferAmount:C}");
                 }

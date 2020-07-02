@@ -108,7 +108,8 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 3)
                 {
-                    // View your pending requests
+                    Console.WriteLine("Sorry, under construction!");
+                    MenuSelection();
 
                 }
                 else if (menuSelection == 4)
@@ -147,7 +148,8 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 5)
                 {
-                    // Request TE bucks
+                    Console.WriteLine("Sorry, under construction!");
+                    MenuSelection();
 
                 }
                 else if (menuSelection == 6)
