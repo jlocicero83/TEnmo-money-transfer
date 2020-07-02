@@ -39,5 +39,13 @@ namespace TenmoClient
             }
 
         }
+        public bool ConfirmRecipient(int idFromUser)
+        {
+            RestRequest request = new RestRequest(API_Base_URL + "users");
+            IRestResponse<Dictionary<int, string>> response = client.Get<Dictionary<int, string>>(request);
+            Dictionary<int, string> result = new Dictionary<int, string>();
+            result = response.Data;
+            return result.ContainsKey(idFromUser);
+        }
     }
 }
