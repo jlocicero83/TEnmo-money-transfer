@@ -42,7 +42,13 @@ namespace TenmoServer.Controllers
             string location = $"transactions/{result.TransferID}";
             return Created(location, result);
         }
+        [HttpGet("transactions")]
+        public ActionResult<List<Transfer>> ListAllTransactions(int userID)
+        {
+            List<Transfer> result = accountDAO.GetAllTransfersByUser(userID);
+            return Ok(result);
+        }
 
-      
+
     }
 }
