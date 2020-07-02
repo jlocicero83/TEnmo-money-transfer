@@ -75,7 +75,7 @@ namespace TenmoClient
             result = response.Data;
             return result.ContainsKey(idFromUser);
         }
-        public void ListAllTransfers(int userID)
+        public void ListAllTransfers()
         {
             RestRequest request = new RestRequest(API_Base_URL + "transactions");
             IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);

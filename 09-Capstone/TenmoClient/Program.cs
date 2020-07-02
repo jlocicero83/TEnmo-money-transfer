@@ -103,7 +103,7 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 2)
                 {
-                    // View your past transfers
+                    accountService.ListAllTransfers();
 
                 }
                 else if (menuSelection == 3)
